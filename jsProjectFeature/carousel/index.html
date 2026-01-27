@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel</title>
+</head>
+<style>
+    .carousel {
+        margin: 100px auto;
+        width: 300px;
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .slides {
+        display: flex;
+        transition: transform .2s ease;
+    }
+    .slide {
+        height: 200px;
+        flex: 1 0 100%;
+        background: lightgray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+    }
+</style>
+<body>
+        <div class="carousel">
+            <div class="slides" id="slides">
+                <div class="slide">1</div>
+                <div class="slide">2</div>
+                <div class="slide">3</div>
+            </div>
+            <button id="prev">Prev</button>
+            <button id="next">Next</button>
+        </div>
+</body>
+<script>
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const slides = document.getElementById("slides");
+
+    let index = 0; //
+    const total = slides.children.length; //3
+    next.onclick = () => {
+        if(index<total-1) index++;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        console.log(index);
+        
+    };
+
+    prev.onclick = () => {
+        if(index > 0) index--;
+        slides.style.transform = `translateX(-${index * 100}%)`
+    } 
+</script>
+</html>
