@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmoothDragableBox</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid;
+            background-color: violet;
+            cursor: grab;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+<script>
+    const box = document.getElementById("box");
+    
+    let offsetX = 0;
+    let offsetY = 0;
+
+    let currentX = 0;
+    let currentY = 0;
+
+    let targetX = 0;
+    let targetY = 0;
+
+    let isDragging = false;
+
+
+function updatePosition () {
+    currentX += (targetX - currentX) * 0.25;
+    currentY += (targetY - currentY) * 0.25;
+    box.style.transform = `translate( ${currentX}px, ${currentY}px)`; 
+}
+function onMouseMove (e) {
+    if(!isDragging) return;
+
+    targetX = e.clientX - offsetX;
+    targetY = e.clientY - offsetY;
+
+    requestAnimationFrame(updatePosition);
+    // box.style.left = targetX +'px'; //non Smooth
+    // box.style.top = targetY +'px';
+}
+
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+    box.style.cursor = 'grab';
+    document.removeEventListener("mousemove", onMouseMove);
+});
+
+box.addEventListener("mousedown", function(e) {
+    isDragging = true;
+    box.style.cursor = 'grabbing';
+
+    let react = box.getBoundingClientRect();
+    offsetX = e.clientX - react.left;
+    offsetY = e.clientY - react.top;
+    document.addEventListener("mousemove", onMouseMove);
+
+});
+
+
+</script>
+</html>
